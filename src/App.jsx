@@ -30,7 +30,7 @@ function App() {
         <Route 
           path="/admin-dashboard" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requirePremium={true}>
               <AdminDash />
             </ProtectedRoute>
           } 
@@ -38,7 +38,7 @@ function App() {
         <Route 
           path="/admin-dashboard/eco-metrics" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requirePremium={true}>
               <EcoMetrics />
             </ProtectedRoute>
           } 
@@ -46,7 +46,7 @@ function App() {
         <Route 
           path="/admin-dashboard/employees" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requirePremium={true}>
               <EmployeeList />
             </ProtectedRoute>
           } 
@@ -56,7 +56,7 @@ function App() {
         <Route 
           path="/employee-portal" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requirePremium={false}>
               <Onboarding />
             </ProtectedRoute>
           } 

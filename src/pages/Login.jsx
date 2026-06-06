@@ -17,7 +17,6 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      // calling supabase
       const { error } = await signIn(email, password);
       
       if (error) {
@@ -26,11 +25,19 @@ export default function Login() {
         return; 
       }
 
-      if (email.includes('admin')) {
+      // SMART ROUTING FOR LOGIN
+      const { data: subData } = await supabase
+        .from('subscriptions')
+        .select('status')
+        .eq('email', email)
+        .single();
+
+      if (subData && subData.status === 'active') {
         navigate('/admin-dashboard');
       } else {
         navigate('/employee-portal');
       }
+
     } catch (err) {
       setErrorMsg('Terjadi kesalahan yang tidak terduga.');
     } finally {
