@@ -106,7 +106,7 @@ export default function LandingPage() {
           <button
             onClick={handleCheckout}
             className="w-full sm:w-auto bg-[#3B82F6] hover:bg-blue-600 text-white px-8 py-4 rounded-xl font-medium text-lg transition-colors shadow-lg shadow-blue-500/30">
-            Start Free Trial
+            Start Your Subscription
           </button>
           <button className="w-full sm:w-auto bg-white border border-gray-200 hover:bg-gray-50 text-gray-900 px-8 py-4 rounded-xl font-medium text-lg transition-colors shadow-sm">
             Book a Demo

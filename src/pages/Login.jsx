@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Tambahan Link di sini
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
@@ -17,7 +17,7 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      // ca;;inmg supabase
+      // calling supabase
       const { error } = await signIn(email, password);
       
       if (error) {
@@ -106,6 +106,14 @@ export default function Login() {
               )}
             </button>
           </form>
+
+          {/* Register */}
+          <p className="text-center text-sm text-gray-600 mt-6">
+            Don't have an account yet?{' '}
+            <Link to="/register" className="font-semibold text-blue-600 hover:text-blue-500">
+              Sign Up here
+            </Link>
+          </p>
 
         </div>
       </div>

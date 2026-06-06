@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 
+
 // Pages
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 // Dashboard (Admin)
 import AdminDash from './pages/dashboard/AdminDash';
@@ -20,6 +22,7 @@ function App() {
         {/* === Public lane === */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* === Private lane (login & VIP needed) === */}
         
