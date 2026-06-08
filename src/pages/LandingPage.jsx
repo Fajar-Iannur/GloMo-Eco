@@ -1,15 +1,28 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { setupPaddle } from '../services/paddleConfig';
+import Modal from '../components/Modal';
 
 export default function LandingPage() {
   const [paddle, setPaddle] = useState(null);
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
+  const [isDemoSubmitted, setIsDemoSubmitted] = useState(false);
 
   useEffect(() => {
     setupPaddle().then((instance) => {
       if (instance) setPaddle(instance);
     });
   }, []);
+
+const handleDemoSubmit = (e) => {
+    e.preventDefault();
+    setIsDemoSubmitted(true);
+
+    setTimeout(() => {
+      setIsDemoOpen(false);
+      setIsDemoSubmitted(false);
+    }, 3000);
+  };
 
   const handleCheckout = () => {
     if (!paddle) {
@@ -75,12 +88,12 @@ export default function LandingPage() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link to="/login" className="hidden sm:block text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+          <Link to="/login" className="text-gray-600 hover:text-gray-900 font-medium text-sm">
             Sign in
           </Link>
-          <button className="bg-[#3B82F6] hover:bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium text-sm transition-colors shadow-sm">
+          <Link to="/login" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors">
             Get Started
-          </button>
+          </Link>
         </div>
       </nav>
 
@@ -108,7 +121,9 @@ export default function LandingPage() {
             className="w-full sm:w-auto bg-[#3B82F6] hover:bg-blue-600 text-white px-8 py-4 rounded-xl font-medium text-lg transition-colors shadow-lg shadow-blue-500/30">
             Start Your Subscription
           </button>
-          <button className="w-full sm:w-auto bg-white border border-gray-200 hover:bg-gray-50 text-gray-900 px-8 py-4 rounded-xl font-medium text-lg transition-colors shadow-sm">
+          <button
+            onClick={() => setIsDemoOpen(true)}
+            className="w-full sm:w-auto bg-white border border-gray-200 hover:bg-gray-50 text-gray-900 px-8 py-4 rounded-xl font-medium text-lg transition-colors shadow-sm">
             Book a Demo
           </button>
         </div>
@@ -135,6 +150,69 @@ export default function LandingPage() {
           </div>
         </div>
       </main>
+      {/* --- MODAL BOOK A DEMO --- */}
+      <Modal 
+        isOpen={isDemoOpen} 
+        onClose={() => {
+          setIsDemoOpen(false);
+          setIsDemoSubmitted(false);
+        }} 
+        title={isDemoSubmitted ? "" : "Book a Live Demo"}
+      >
+        {isDemoSubmitted ? (
+          <div className="text-center py-6">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Request Sent!</h3>
+            <p className="text-gray-600 text-sm">
+              Thank you! Our team will contact you shortly via email to schedule your personalized demo.
+            </p>
+          </div>
+        ) : (
+          // Form input
+          <form onSubmit={handleDemoSubmit} className="space-y-4 mt-2">
+            <p className="text-sm text-gray-600 mb-4">
+              See how GlowMo Eco can help your enterprise track EU B2B carbon emissions seamlessly.
+            </p>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <input 
+                type="text" 
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm" 
+                placeholder="John Doe" 
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Work Email</label>
+              <input 
+                type="email" 
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm" 
+                placeholder="john@company.com" 
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Company Size</label>
+              <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm bg-white">
+                <option>1-50 Employees</option>
+                <option>51-200 Employees</option>
+                <option>201-500 Employees</option>
+                <option>500+ Employees</option>
+              </select>
+            </div>
+            <button 
+              type="submit" 
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition-colors mt-6"
+            >
+              Request Demo
+            </button>
+          </form>
+        )}
+      </Modal>
     </div>
   );
 }
